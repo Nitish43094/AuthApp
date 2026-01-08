@@ -6,22 +6,23 @@ const PORT = process.env.PORT || 4000
 const user = require('./route/user')
 
 app.use(express.json())
-let dbReadyPromise;
+dbConnection();
+// let dbReadyPromise;
 
-if (!dbReadyPromise) {
-    dbReadyPromise = dbConnection();
-}
-app.use(async (req, res, next) => {
-    try {
-        await dbReadyPromise; // wait only first time
-        next();
-    } catch (err) {
-        res.status(500).json({
-            success: false,
-            message: "Database unavailable",
-        });
-    }
-});
+// if (!dbReadyPromise) {
+//     dbReadyPromise = dbConnection();
+// }
+// app.use(async (req, res, next) => {
+//     try {
+//         await dbReadyPromise; // wait only first time
+//         next();
+//     } catch (err) {
+//         res.status(500).json({
+//             success: false,
+//             message: "Database unavailable",
+//         });
+//     }
+// });
 app.use('/api/v1',user)
 app.get('/',(req,res)=>{
     res.send(`<h1>Ther Auth Server Start</h1>`)
